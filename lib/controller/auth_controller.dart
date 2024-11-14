@@ -28,4 +28,20 @@ class AuthController {
       return false;
     }
   }
+
+  void sendData(String text) async {
+    try {
+      Response res = await _dio
+          .post("${AppUrl.baseURL}/admin/send-text/", data: {"text": text},options: Options(contentType: Headers.jsonContentType));
+
+      if (res.statusCode == 200) {
+        Components.logMessage("Success");
+        Components.logMessage(res.data.toString());
+      } else {
+        Components.logMessage(res.statusCode.toString());
+      }
+    } catch (e) {
+      Components.logErrMessage("failed to send data", e);
+    }
+  }
 }

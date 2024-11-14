@@ -4,7 +4,7 @@ import 'package:frontend/app/app_url.dart';
 import 'package:frontend/bloc/web_socket/web_socket_bloc.dart';
 import 'package:frontend/controller/web_socket_controller.dart';
 import 'package:frontend/service/background_service.dart';
-import 'package:frontend/view/responsive_view.dart';
+import 'package:frontend/view/nats/nats.dart';
 import 'package:logger/logger.dart';
 
 void main() {
@@ -56,8 +56,10 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       child: MaterialApp(
         title: 'Responsive Login',
         theme: ThemeData(primarySwatch: Colors.blue),
-        home: const ResponsiveView(),
+        home:  PublishMessageScreen(),
       ),
     );
   }
 }
+
+

@@ -2,11 +2,10 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:frontend/app/util.dart';
+import 'package:frontend/service/db_service.dart';
 import 'package:frontend/widgets/components.dart';
 import 'package:web_socket_channel/io.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
-import 'package:web_socket_channel/html.dart'
-    if (dart.library.io) 'package:web_socket_channel/io.dart';
 
 class WebSocketService {
   final String url;
@@ -19,7 +18,7 @@ class WebSocketService {
   void connect(BuildContext context) {
     try {
       if (kIsWeb) {
-        _channel = HtmlWebSocketChannel.connect(url);
+        //_channel = HtmlWebSocketChannel.connect(url);
       } else {
         _channel = IOWebSocketChannel.connect(url);
       }
@@ -29,10 +28,12 @@ class WebSocketService {
           try {
             final data = jsonDecode(message);
             final progress = data['progress'];
-
+            if (data['data']['active'] == true) {
+              DatabaseService().storeData(data);
+            }
             Components.logMessage(progress);
           } catch (e) {
-            Components.logErrMessage("Error parsing message:", e);
+            // Components.logErrMessage("Error parsing message:", e);
           }
         },
         onDone: () {
